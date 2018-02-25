@@ -1,0 +1,99 @@
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="searchInput"></label>
+      <input type="text" class="form-control" [(ngModel)]="inputFilter" [ngModelOptions]="{standalone: true}" id="searchInput" aria-describedby="typeHelp" placeholder="type, color, engine, price">
+      <small id="typeHelp" class="form-text text-muted">Search by any property</small>
+    </div>
+  </form>
+  <div class="reglist">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Transport Type</th>
+          <th>Color</th>
+          <th>Engine</th>
+          <th>Weight</th>
+          <th>Price</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of vehicles | transportFilter:inputFilter ; let i = index ">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ vehicle.type }}</td>
+          <td>{{ vehicle.color }}</td>
+          <td>{{ vehicle.engine }}</td>
+          <td>{{ vehicle.weight }}</td>
+          <td>{{ vehicle.price }}</td>
+          <td>
+            <button type="button" class="btn btn-info" (click)="onEdit(i)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="onDelete(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-right">
+      <button type="submit" class="btn btn-primary" (click)="onNew()">New</button>
+    </div>
+  </div>
+  <br>
+  <div class="regentry" *ngIf="showNew">
+    <form (ngSubmit)="onSave()">
+      <div class="form-group row">
+        <label for="city-input" class="col-2 col-form-label">Transport Type</label>
+        <div class="col-10 dropdown" ngbDropdown myDrop="ngbDropdown">
+          <button type="button" class="btn btn-outline-primary" id="dropdownManual" name="type" ngbDropdownToggle>{{vehicleModel.type}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button type="button" class="dropdown-item" *ngFor="let type of transportsTypes" (click)="onChangeTransportType(type)">{{type}}</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="form-group row">
+        <label for="firstname-input" class="col-2 col-form-label">Transport Type</label>
+        <div class="col-10">
+          <input class="form-control" type="text" [(ngModel)]="vehicleModel.type" name="type">
+        </div>
+      </div> -->
+      <div class="form-group row">
+        <label for="lastname-input" class="col-2 col-form-label">Color</label>
+        <div class="col-10">
+          <input class="form-control" type="text" [(ngModel)]="vehicleModel.color" name="color">
+        </div>
+      </div>
+      <!-- <div class="form-group row">
+        <label for="dob-input" class="col-2 col-form-label">DOB</label>
+        <div class="col-3 input-group">
+          <input type="text" class="form-control" placeholder="yyyy-mm-dd" name="dob" [(ngModel)]="vehicleModel.dob" ngbDatepicker #dob="ngbDatepicker">
+          <button class="input-group-addon" (click)="dob.toggle()" type="button">
+            <img src="assets/img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+          </button>
+        </div>
+      </div> -->
+      <div class="form-group row">
+        <label for="example-email-input" class="col-2 col-form-label">Engine</label>
+        <div class="col-10">
+          <input class="form-control" type="text" [(ngModel)]="vehicleModel.engine" name="engine">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-password-input" class="col-2 col-form-label">Weight</label>
+        <div class="col-10">
+          <input class="form-control" type="number" [(ngModel)]="vehicleModel.weight" name="weight">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="example-password-input" class="col-2 col-form-label">Price</label>
+        <div class="col-10">
+          <input class="form-control" type="number" [(ngModel)]="vehicleModel.price" name="price">
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success">{{submitType}}</button>
+      <button type="submit" class="btn btn-primary" (click)="onCancel()">Cancel</button>
+    </form>
+  </div>
+</div>
